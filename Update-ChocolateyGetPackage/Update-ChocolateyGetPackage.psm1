@@ -70,10 +70,10 @@ function Update-ChocolateyGetPackage {
         Foreach ($CurrentPackage in $CurrentPackages) {
 
             Write-Verbose "Checking the package $($CurrentPackage.Name) for updates"
-            $InstalledVersion = [Version]$($CurrentPackage.Version)
+            $InstalledVersion = [Version]$($CurrentPackage.Version.Trim('v'))
             $LatestPackage = Find-Package -ProviderName chocolateyget -Name $($CurrentPackage.Name)
-            $LatestVersion = [Version]$($LatestPackage.Version)
-            
+            $LatestVersion = [Version]$($LatestPackage.Version.Trim('v'))
+
             If ($InstalledVersion -lt $LatestVersion) {
                 If ($PSCmdlet.ShouldProcess($($CurrentPackage.Name), "Install-Package")) {
                     Install-Package -InputObject $LatestPackage -Confirm:$False
